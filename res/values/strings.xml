@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Google変換マッシュ</string>
+    <string name="button_cancel">キャンセル</string>
+    <string name="button_do">確定</string>
+    <string name="sub_button_convert">変換</string>
+    <string name="sub_usage">変換するテキストを入力して下さい。</string>
+</resources>
