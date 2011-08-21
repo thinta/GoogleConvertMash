@@ -2,7 +2,7 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent" android:orientation="vertical" android:layout_height="fill_parent">
-	<TextView android:id="@+id/TextView01" android:text="@string/sub_usage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="9"></TextView>
+	<TextView android:id="@+id/TextView01" android:text="@string/sub_usage" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="9" android:textSize="18sp"></TextView>
 	<LinearLayout android:id="@+id/LinearLayout02" android:layout_height="fill_parent" android:layout_width="fill_parent" android:orientation="vertical" android:layout_weight="1"><EditText android:text="@+id/EditText01" android:id="@+id/EditText01" android:layout_width="fill_parent" android:layout_height="fill_parent" android:gravity="top|left" android:layout_weight="2"></EditText><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" android:layout_gravity="bottom" android:layout_height="fill_parent" android:layout_weight="4">
 		<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="1" android:text="@string/sub_button_convert"></Button>
 		<Button android:id="@+id/Button02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/button_cancel" android:layout_weight="2"></Button>

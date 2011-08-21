@@ -1,5 +1,7 @@
 package net.thinta.android.lib.ui;
 
+import java.util.HashMap;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,7 +13,7 @@ import android.view.ViewGroup;
  */
 public class FlowLayout extends ViewGroup {
 
-    private int line_height;
+    //private int line_height;
 
     public static class LayoutParams extends ViewGroup.LayoutParams {
 
@@ -37,6 +39,19 @@ public class FlowLayout extends ViewGroup {
         super(context, attrs);
     }
 
+    HashMap<Integer,Integer> line_heights = new HashMap<Integer,Integer>();
+    private int putLineHeight(int row,int itemHeight){
+    	if(this.line_heights.containsKey(row)){
+    		this.line_heights.put(row, Math.max(this.line_heights.get(row), itemHeight));
+    	}else{
+    		this.line_heights.put(row, itemHeight);
+    	}
+    	return this.line_heights.get(row);
+    }
+    private int getLineHeight(int row){
+    	return this.line_heights.get(row);
+    }
+    
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         assert (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED);
@@ -56,23 +71,26 @@ public class FlowLayout extends ViewGroup {
             childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         }
 
+        int rownum = 0;
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST), childHeightMeasureSpec);
                 final int childw = child.getMeasuredWidth();
-                line_height = Math.max(line_height, child.getMeasuredHeight() + lp.vertical_spacing);
-
+                //line_height = Math.max(line_height, child.getMeasuredHeight() + lp.vertical_spacing);
                 if (xpos + childw > width) {
                     xpos = getPaddingLeft();
-                    ypos += line_height;
+                    //ypos += line_height;
+                    ypos += getLineHeight(rownum);
+                    rownum++;
                 }
+                line_height = putLineHeight(rownum, child.getMeasuredHeight() + lp.vertical_spacing);
 
                 xpos += childw + lp.horizontal_spacing;
             }
         }
-        this.line_height = line_height;
+        //this.line_height = line_height;
 
         if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED) {
             height = ypos + line_height;
@@ -105,6 +123,7 @@ public class FlowLayout extends ViewGroup {
         int xpos = getPaddingLeft();
         int ypos = getPaddingTop();
 
+        int rownum = 0;
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
@@ -113,7 +132,9 @@ public class FlowLayout extends ViewGroup {
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 if (xpos + childw > width) {
                     xpos = getPaddingLeft();
-                    ypos += line_height;
+                    //ypos += line_height;
+                    ypos += getLineHeight(rownum);
+                    rownum++;
                 }
                 child.layout(xpos, ypos, xpos + childw, ypos + childh);
                 xpos += childw + lp.horizontal_spacing;
