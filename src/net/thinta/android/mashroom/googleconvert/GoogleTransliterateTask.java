@@ -43,6 +43,7 @@ public class GoogleTransliterateTask extends AsyncTask<String,Integer,ArrayList<
 
 	private Activity owner  = null;
 	private ProgressDialog dialog = null;
+	private String sourceString = null;
 	
 	@Override
 	protected void onPreExecute() {
@@ -58,6 +59,8 @@ public class GoogleTransliterateTask extends AsyncTask<String,Integer,ArrayList<
 	@Override
 	protected ArrayList<TransliterateResultItem> doInBackground(
 			String... params) {
+		
+		this.sourceString = params[0]; // save
 		
 		ArrayList<TransliterateResultItem> results = new ArrayList<TransliterateResultItem>();
 		
@@ -114,6 +117,7 @@ public class GoogleTransliterateTask extends AsyncTask<String,Integer,ArrayList<
     		buttonsList.add(addUI(item,parent));
     	}
     	
+    	// Button OK
     	Button buttonDo = (Button)owner.findViewById(R.id.Button01);
     	buttonDo.setVisibility(View.VISIBLE);
     	buttonDo.setOnClickListener(new OnClickListener() {
@@ -130,12 +134,16 @@ public class GoogleTransliterateTask extends AsyncTask<String,Integer,ArrayList<
 			}
 		});
 
+    	// Button Cancel
     	Button buttonCancel = (Button)owner.findViewById(R.id.Button02);
     	buttonCancel.setVisibility(View.VISIBLE);
     	buttonCancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				owner.setResult(Activity.RESULT_CANCELED);
+				Intent data = new Intent();
+				data.putExtra(REPLACE_KEY, sourceString);
+				owner.setResult(Activity.RESULT_OK, data);
+				//owner.setResult(Activity.RESULT_CANCELED); //キャンセル時の動作がIMEによって違うので
 				owner.finish();
 			}
 		});
